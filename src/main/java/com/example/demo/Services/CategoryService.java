@@ -2,15 +2,19 @@ package com.example.demo.Services;
 import com.example.demo.Model.Entity.Category;
 
 import java.util.List;
+import java.util.Optional;
+
 public interface CategoryService {
 
-        List<Category> getAllCategories();
+    List<Category> getAllCategories();
 
-        Category getCategoryById(Long id);
+    Optional<Category> getCategoryById(Long id);
 
-        Category saveCategory(Category category);
+    Category saveCategory(Category category);
+    void deleteCategory(Long id);
+    Category updateCategory(Long id, Category updatedCategory);
 
-        void deleteCategory(Long id);
-    }
+
+}
 
 

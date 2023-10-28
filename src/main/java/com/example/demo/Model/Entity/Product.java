@@ -1,67 +1,28 @@
 package com.example.demo.Model.Entity;
-
-
-
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String size;
-    private String color;
+    @Column(name = "product_name")
+    private String productName;
 
+    @Column(name = "price")
+    private BigDecimal price;
+
+    // Many products can belong to one category
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Product() {
-    }
+    // Constructors, getters, and setters
 
-    public Product(String name, String size, String color, Category category) {
-        this.name = name;
-        this.size = size;
-        this.color = color;
-        this.category = category;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+    // Additional fields, methods, and annotations as needed
 }

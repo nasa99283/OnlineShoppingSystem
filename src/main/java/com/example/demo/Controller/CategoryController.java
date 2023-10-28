@@ -1,13 +1,14 @@
 package com.example.demo.Controller;
 
-
-
 import com.example.demo.Model.Entity.Category;
 import com.example.demo.Services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -22,7 +23,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category getCategoryById(@PathVariable Long id) {
+    public Optional<Category> getCategoryById(@PathVariable Long id) {
         return categoryService.getCategoryById(id);
     }
 
@@ -34,5 +35,11 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category updatedCategory) {
+        Category updated = categoryService.updateCategory(id, updatedCategory);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
     }
 }

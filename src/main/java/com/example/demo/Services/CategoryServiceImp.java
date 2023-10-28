@@ -5,37 +5,78 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-public class CategoryServiceImp {
+import java.util.Optional;
+
+@Service
+public class CategoryServiceImp implements CategoryService {
+
+    @Autowired
+    private  final CategoryRepository categoryRepository;
 
 
+    @Autowired
+    public CategoryServiceImp(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public Optional <Category> getCategoryById(Long id) {
+        return categoryRepository.findById(id);
+    }
+    @Override
+    public Category saveCategory(Category category) {
+        return categoryRepository.save(category);
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
+    }
 
 
-    @Service
-    public class CategoryServiceImpl implements CategoryService {
+    @Override
+    public Category updateCategory(Long id, Category updatedCategory) {
+        Optional<Category> existingCategoryOptional = categoryRepository.findById(id);
 
-        @Autowired
-        private CategoryRepository categoryRepository;
+        if (existingCategoryOptional.isPresent()) {
+            Category existingCategory = existingCategoryOptional.get();
 
-        @Override
-        public List<Category> getAllCategories() {
-            return categoryRepository.findAll();
-        }
+            // Log the existing and updated category for debugging
+            System.out.println("Existing Category: " + existingCategory);
+            System.out.println("Updated Category: " + updatedCategory);
 
-        @Override
-        public Category getCategoryById(Long id) {
-            return categoryRepository.findById(id).orElse(null);
-        }
+            // Update fields with non-null values from the updatedCategory
+            if (updatedCategory.getName() != null) {
+                existingCategory.setName(updatedCategory.getName());
+            }
 
-        @Override
-        public Category saveCategory(Category category) {
-            return categoryRepository.save(category);
-        }
+            // Log the updated category for debugging
+            System.out.println("Updated Category after modification: " + existingCategory);
 
-        @Override
-        public void deleteCategory(Long id) {
-            categoryRepository.deleteById(id);
+            // Save the updated category to the database
+            Category savedCategory = categoryRepository.save(existingCategory);
+
+            // Log the saved category for debugging
+            System.out.println("Saved Category: " + savedCategory);
+
+            return savedCategory;
+        } else {
+            // Log that the category with the given id is not found
+            System.out.println("Category with ID " + id + " not found");
+
+
+            return null;
         }
     }
 
 
+
 }
+
+
+

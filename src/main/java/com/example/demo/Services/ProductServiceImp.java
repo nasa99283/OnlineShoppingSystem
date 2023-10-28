@@ -1,7 +1,5 @@
 package com.example.demo.Services;
 
-
-
 import com.example.demo.Model.Entity.Product;
 import com.example.demo.Model.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,4 +33,13 @@ public class ProductServiceImp implements ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+
+
+
+
+
+
+
+
 }
